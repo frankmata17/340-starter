@@ -4,3 +4,318 @@
 *:after {
   box-sizing: border-box;
 }
+
+body {
+  font-family: Arial, sans-serif;
+  /* background-color: white; */
+  margin: 205px;
+  /* padding: 20px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* min-height: 100vh; */
+  position: relative;
+  border-style: solid;
+  border-radius: 10px;
+  border-color: aqua;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: url('/images/site/checkerboard.jpg');
+  background-size: 500px;
+  /* background-repeat: repeat; */
+  z-index: -1;
+}
+
+
+
+h1 {
+  color: #333;
+}
+
+h2 {
+  margin: 0;
+}
+
+nav {
+  background-color: black;
+  color: white;
+  display: flex; /* Use flex to center the content */
+  justify-content: center; /* Horizontally center the nav links */
+  padding: 10px;
+  border-radius: 8px; 
+  width: auto; /* Remove the 100% width to let the nav adjust to the content */
+  align-items: center;
+  margin: 0 auto; /* Center the nav bar itself */
+}
+
+nav ul {
+  list-style-type: none;  /* Remove default list bullets */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center; /* Ensure the links are centered */
+  align-items: center;
+
+}
+
+nav ul li {
+    margin-right: 20px;     /* Add space between each nav item */
+    align-items: center;
+}
+
+nav ul a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+nav ul a:hover {
+    color: gray;
+}
+
+#top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: white;
+  color: black;
+}
+
+#top-header .siteName a {
+  color: black;
+  text-decoration: none;
+  font-size: 24px;
+}
+
+#top-header #tools a {
+  color: black;
+  text-decoration: none;
+}
+
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: white;
+}
+
+.delorean-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.delorean {
+  max-width: 100%;
+  height: auto;
+}
+
+.delorean-info {
+  position:static;
+  top: 51%;
+  left: 20%;
+  transform: translateY(-50%);
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+  color:rgb(67, 193, 235);
+  max-width: 300px;
+  text-align: center;
+}
+.delorean-info button {
+  background-color: rgb(67, 193, 235);
+  color: black;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.sections-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.upgrades, .reviews {
+  flex-basis: calc(50% - 10px);
+}
+
+.upgrades .upgrade-items {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.upgrade-item {
+  text-align: center;
+  width: calc(50% - 20px);
+  margin: 5px;
+  background-color: rgb(67, 193, 235);
+  padding: 10px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.2);
+  border-color: black;
+}
+
+.upgrade-item img {
+  position:sticky;
+  width: auto;
+  height: 100px;
+}
+.reviews ul {
+  padding: 0;
+  text-align: left;
+}
+
+footer {
+  background-color: white;
+  color: black;
+  padding: 10px;
+}
+#tools {
+  text-align: right;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.vehicle-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.vehicle-detail img {
+  max-width: 100%;
+  height: auto;
+}
+
+.vehicle-info {
+  flex: 1;
+  padding: 20px;
+}
+
+/* REGISTRATION */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+label {
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button[type="submit"] {
+  padding: 10px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button[type="button"] {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 8px;
+}
+
+button[type="submit"]:hover,
+button[type="button"]:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 600px) {
+  .sections-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .upgrades,
+  .reviews {
+    flex-basis: 100%;
+  }
+
+  .reviews {
+    order: -1;
+    margin-bottom: 20px;
+    
+  }
+
+  .upgrades .upgrade-items,
+  .reviews ul {
+    flex-direction: column;
+  }
+
+  .delorean-info {
+    position: relative;
+    left: 0;
+    top: auto;
+    transform: none;
+    margin-bottom: 20px;
+    background-color: rgba(255, 255, 255, 0.7);
+    color: rgb(67, 193, 235);
+    max-width: 100%;
+    text-align: center;
+    /* left: 10px;           Adjust left position for mobile */
+    /* top: 40%;             Adjust top position for mobile */
+    /* width: 90%; */
+  }
+
+  .delorean-info button {
+    width: 100%;
+  }
+
+  /* Additional styles for upgrades section */
+  .upgrades .upgrade-items {
+      display: grid;              /* Use grid layout */
+      grid-template-columns: repeat(2, 1fr);  /* Create 2 equal columns */
+      gap: 10px;                  /* Add space between items */
+    }
+  }
+
+  .upgrades .upgrade-item {
+    flex: 0 0 calc(50% - 10px);
+    background-color: rgb(67, 193, 235);
+    color: black;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    margin: 5px;
+  }
+
+  .upgrades .upgrade-item img {
+    width: 100%;
+    height: auto;
+  }
+  .vehicle-container {
+    flex-direction: column;
+  }
+
+
