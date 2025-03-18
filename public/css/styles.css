@@ -318,4 +318,30 @@ button[type="button"]:hover {
     flex-direction: column;
   }
 
+  .error-container {
+    text-align: center;
+    margin: 50px auto;
+    max-width: 600px;
+}
 
+.error-container h1 {
+    color: #d9534f;
+}
+
+.error-container p {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.error-container a {
+    display: inline-block;
+    padding: 10px 20px;
+    color: white;
+    background-color: #0275d8;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.error-container a:hover {
+    background-color: #025aa5;
+}
