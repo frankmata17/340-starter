@@ -1,13 +1,11 @@
-<!-- Content Heading -->
-<% if (title) { %>
+<main>
+  <% if (title) { %>
     <h1><%= title %></h1>
-    <% } else {
-      res.redirect('/')
-    } %>
+  <% } else { %>
+    <h1>Vehicle Classification</h1>
+  <% } %>
 
-<!-- A Message Block -->
-<%# messages() %>
 
-<!-- The Inventory Items Display -->
-<%- grid %>
-
+  <!-- The Inventory Items Display -->
+  <%- grid %>
+</main>

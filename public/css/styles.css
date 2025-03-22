@@ -5,15 +5,20 @@
   box-sizing: border-box;
 }
 
+html, body {
+  height: 100%;
+}
+
 body {
   font-family: Arial, sans-serif;
   /* background-color: white; */
-  margin: 205px;
-  /* padding: 20px; */
+  margin: 0;
+  padding: 0;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  /* justify-content: center; */
   align-items: center;
-  /* min-height: 100vh; */
+  min-height: 100vh;
   position: relative;
   border-style: solid;
   border-radius: 10px;
@@ -33,6 +38,11 @@ body::before {
   z-index: -1;
 }
 
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
 
 h1 {
@@ -102,6 +112,8 @@ nav ul a:hover {
 }
 
 main {
+  flex: 1;
+  flex-grow: 1;
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
@@ -251,7 +263,66 @@ button[type="button"]:hover {
   background-color: #0056b3;
 }
 
+.vehicle-detail {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+}
+
+.vehicle-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.vehicle-container img {
+  width: 50%;
+  max-width: 500px;
+  border-radius: 10px;
+}
+
+.vehicle-info {
+  flex: 1;
+}
+
+.vehicle-info h2 {
+  font-size: 1.8rem;
+}
+
+.vehicle-info p {
+  font-size: 1.2rem;
+  margin: 5px 0;
+}
+
+
+/* MOBILE */
+
 @media (max-width: 600px) {
+
+  #top-header {
+    flex-direction:row;
+    align-items: flex-start;
+  }
+
+  nav ul {
+    flex-direction: row;
+  }
+
+  nav ul li {
+    margin: 10px 0;
+  }
+
+  nav ul a {
+    font-size: 15px;
+    padding: 5px 10px;
+    display: block;
+    text-align: center;
+  }
+
+  main {
+    padding: 10px;
+  }
+
   .sections-container {
     display: flex;
     flex-direction: column;
@@ -298,6 +369,20 @@ button[type="button"]:hover {
       grid-template-columns: repeat(2, 1fr);  /* Create 2 equal columns */
       gap: 10px;                  /* Add space between items */
     }
+
+    .vehicle-container {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .vehicle-container img {
+      width: 100%;
+  }
+
+  .vehicle-info {
+      text-align: center;
+  }
+
   }
 
   .upgrades .upgrade-item {
@@ -344,4 +429,11 @@ button[type="button"]:hover {
 
 .error-container a:hover {
     background-color: #025aa5;
+}
+
+.grid-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  min-height: 500px; /* Ensures a minimum height */
 }
