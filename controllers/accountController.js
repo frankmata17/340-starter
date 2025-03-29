@@ -1,6 +1,6 @@
 const utilities = require("../utilities/");
 const accountModel = require("../models/account-model");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 const accountController = {};
 
