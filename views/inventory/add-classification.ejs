@@ -1,0 +1,31 @@
+<main>
+    <% if (messages && messages().length > 0) { %>
+      <div class="flash-wrapper">
+        <%- messages() %>
+      </div>
+    <% } %>
+  
+    <% if (errors && errors.length > 0) { %>
+      <ul class="notice">
+        <% errors.forEach(error => { %>
+          <li><%= error.msg %></li>
+        <% }) %>
+      </ul>
+    <% } %>
+  
+    <h1>Add New Classification</h1>
+    <p>Classification names cannot contain spaces or special characters.</p>
+  
+    <form action="/inv/add-classification" method="post" id="classificationForm">
+      <label for="classification_name">Classification Name</label>
+      <input 
+        type="text"
+        name="classification_name"
+        id="classification_name"
+        pattern="^[A-Za-z0-9]+$"
+        title="Only letters and numbers, no spaces or special characters"
+        required
+      >
+      <button type="submit">Add Classification</button>
+    </form>
+  </main>

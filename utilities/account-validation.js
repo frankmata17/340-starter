@@ -1,14 +1,12 @@
 const utilities = require(".");
 const { body, validationResult } = require("express-validator");
+const accountModel = require("../models/account-model");
 
 const validate = {};
 
-/* **********************************
- *  Registration Data Validation Rules
- * ********************************* */
+// Registration Rules
 validate.registrationRules = () => {
   return [
-    // First name: required, min length 1
     body("account_firstname")
       .trim()
       .escape()
@@ -16,7 +14,6 @@ validate.registrationRules = () => {
       .isLength({ min: 1 })
       .withMessage("Please provide a first name."),
 
-    // Last name: required, min length 2
     body("account_lastname")
       .trim()
       .escape()
@@ -24,16 +21,18 @@ validate.registrationRules = () => {
       .isLength({ min: 2 })
       .withMessage("Please provide a last name."),
 
-    // Email: valid, normalized, and required
     body("account_email")
       .trim()
-      .escape()
-      .notEmpty()
       .isEmail()
       .normalizeEmail()
-      .withMessage("A valid email is required."),
+      .withMessage("A valid email is required.")
+      .custom(async (account_email) => {
+        const emailExists = await accountModel.checkExistingEmail(account_email);
+        if (emailExists) {
+          throw new Error("Email exists. Please log in or use a different email");
+        }
+      }),
 
-    // Password: strong requirements
     body("account_password")
       .trim()
       .notEmpty()
@@ -48,20 +47,49 @@ validate.registrationRules = () => {
   ];
 };
 
-/* ******************************
- * Check data and return errors or continue to registration
- * ***************************** */
 validate.checkRegData = async (req, res, next) => {
   const { account_firstname, account_lastname, account_email } = req.body;
-  let errors = validationResult(req);
+  const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const nav = await utilities.getNav();
     res.render("account/register", {
       title: "Registration",
       nav,
-      errors: errors.array(), // send errors as array
+      errors: errors.array(),
       account_firstname,
       account_lastname,
+      account_email,
+    });
+    return;
+  }
+  next();
+};
+
+// Login Rules
+validate.loginRules = () => {
+  return [
+    body("account_email")
+      .trim()
+      .isEmail()
+      .normalizeEmail()
+      .withMessage("A valid email is required."),
+
+    body("account_password")
+      .trim()
+      .notEmpty()
+      .withMessage("Password is required."),
+  ];
+};
+
+validate.checkLoginData = async (req, res, next) => {
+  const { account_email } = req.body;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const nav = await utilities.getNav();
+    res.render("account/login", {
+      title: "Login",
+      nav,
+      errors: errors.array(),
       account_email,
     });
     return;

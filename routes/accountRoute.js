@@ -24,6 +24,8 @@ router.post(
 // Process login data (already implemented)
 router.post(
   "/login",
+  regValidate.loginRules(),
+  regValidate.checkLoginData,
   utilities.handleErrors(accountController.loginAccount)
 );
 
