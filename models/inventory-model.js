@@ -96,10 +96,59 @@ async function addInventoryItem(
   }
 }
 
+/* ***************************
+ * Get inventory item by ID
+ * ************************** */
+async function getInventoryById(inv_id) {
+  try {
+    const sql = "SELECT * FROM public.inventory WHERE inv_id = $1";
+    const data = await pool.query(sql, [inv_id]);
+    return data.rows[0]; // Return the single row (object)
+  } catch (error) {
+    console.error("getInventoryById error:", error);
+    throw error;
+  }
+}
+
+async function updateInventoryItem(
+  inv_id, classification_id, inv_make, inv_model, inv_year,
+  inv_description, inv_image, inv_thumbnail, inv_price,
+  inv_miles, inv_color
+) {
+  try {
+    const sql = `
+      UPDATE inventory
+      SET classification_id = $1,
+          inv_make = $2,
+          inv_model = $3,
+          inv_year = $4,
+          inv_description = $5,
+          inv_image = $6,
+          inv_thumbnail = $7,
+          inv_price = $8,
+          inv_miles = $9,
+          inv_color = $10
+      WHERE inv_id = $11
+    `;
+    const data = await pool.query(sql, [
+      classification_id, inv_make, inv_model, inv_year,
+      inv_description, inv_image, inv_thumbnail, inv_price,
+      inv_miles, inv_color, inv_id
+    ]);
+    return data.rowCount;
+  } catch (error) {
+    console.error("updateInventoryItem error:", error);
+    throw error;
+  }
+}
+
+
 module.exports = {
   getClassifications,
   getInventoryByClassificationId,
   getVehicleById,
   addClassification,
-  addInventoryItem
+  addInventoryItem,
+  getInventoryById,
+  updateInventoryItem
 };

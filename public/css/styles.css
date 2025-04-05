@@ -111,6 +111,23 @@ nav ul a:hover {
   text-decoration: none;
 }
 
+header ul {
+  list-style: none; /* Removes bullet points */
+  padding: 0;
+  margin: 0;
+  display: flex; /* Makes the list items align horizontally */
+  gap: 1rem; /* Adds space between the links */
+}
+
+header ul li a {
+  text-decoration: none; /* Removes underline */
+  color: black; /* Set to your preferred color */
+}
+
+header ul li a:hover {
+  text-decoration: underline; /* Optional hover effect */
+}
+
 main {
   flex: 1;
   flex-grow: 1;
@@ -626,4 +643,53 @@ button[type="button"]:hover {
   color: #555;
   margin-top: -10px;
   margin-bottom: 10px;
+}
+
+#inventoryDisplay {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+#inventoryDisplay th,
+#inventoryDisplay td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+#inventoryDisplay th {
+  background-color: #f4f4f4;
+}
+
+.flash-wrapper {
+  margin: 1rem auto;
+  max-width: 700px;
+  padding: 0 1rem;
+}
+
+.flash-message {
+  position: relative;
+  background-color: #e0ffe0;
+  border: 1px solid #46a049;
+  color: black;
+  padding: 1rem;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.flash-message a {
+  color: black;
+  text-decoration: underline;
+}
+
+.close-flash {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: #2f6627;
 }

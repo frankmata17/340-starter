@@ -11,15 +11,17 @@ const expressLayouts = require("express-ejs-layouts");
 const env = require("dotenv").config();
 const app = express();
 
-const session = require("express-session")
-const pool = require('./database/')
+const session = require("express-session");
+const flash = require("connect-flash");
+const pool = require("./database/");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 
 const static = require("./routes/static");
 const baseController = require("./controllers/baseControllers");
 const inventoryRoute = require("./routes/inventoryRoute");
 const accountRoute = require("./routes/accountRoute");
 const utilities = require("./utilities");
-const bodyParser = require("body-parser")
 
 /* ***********************
  * View Engine and Templates
@@ -38,27 +40,62 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(
+  session({
+    store: new (require("connect-pg-simple")(session))({
+      createTableIfMissing: true,
+      pool,
+    }),
+    secret: process.env.SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true,
+    name: "sessionId",
+  })
+);
 
-app.use(session({
-  store: new (require('connect-pg-simple')(session))({
-    createTableIfMissing: true,
-    pool,
-  }),
-  secret: process.env.SESSION_SECRET,
-  resave: true,
-  saveUninitialized: true,
-  name: 'sessionId',
-}))
+// Flash middleware
+app.use(flash());
 
-// Express Messages Middleware
-app.use(require('connect-flash')())
-app.use(function(req, res, next){
-  res.locals.messages = require('express-messages')(req, res)
-  next()
-})
+// Flash messages
+app.use(function (req, res, next) {
+  res.locals.messages = require("express-messages")(req, res);
+  
+  res.locals.messageStyles = {
+    notice: 'notice',
+    error: 'error'
+  };
+  next();
+});
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+// Body parsing middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Cookie parser
+app.use(cookieParser());
+
+// Set login status and account info for views
+app.use(async (req, res, next) => {
+  const token = req.cookies.jwt;
+  if (token) {
+    try {
+      const jwt = require("jsonwebtoken");
+      const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+      res.locals.loggedin = true;
+      res.locals.accountData = decoded;
+    } catch (err) {
+      res.locals.loggedin = false;
+      res.locals.accountData = null;
+    }
+  } else {
+    res.locals.loggedin = false;
+    res.locals.accountData = null;
+  }
+  next();
+});
+
+// ✅ JWT token validation middleware
+app.use(utilities.checkJWTToken);
 
 /* ***********************
  * Routes
@@ -73,8 +110,8 @@ app.get("/", utilities.handleErrors(baseController.buildHome));
 // Inventory routes (prefix is '/inv')
 app.use("/inv", inventoryRoute);
 
+// Account routes (prefix is '/account')
 app.use("/account", accountRoute);
-
 
 /* ***********************
  * 404 Error Route
@@ -87,7 +124,7 @@ app.use(async (req, res, next) => {
   res.status(404).render("errors/error", {
     title: "404 - Page Not Found",
     message: error.message,
-    nav
+    nav,
   });
 });
 
@@ -100,14 +137,15 @@ app.use(async (err, req, res, next) => {
 
   console.error(`Error at: "${req.originalUrl}": ${err.message}`);
 
-  const message = (err.status == 404)
-    ? err.message
-    : "Oh no! There was a crash. Maybe try a different route?";
+  const message =
+    err.status == 404
+      ? err.message
+      : "Oh no! There was a crash. Maybe try a different route?";
 
   res.status(err.status || 500).render("errors/error", {
     title: err.status || "Server Error",
     message,
-    nav
+    nav,
   });
 });
 
@@ -115,7 +153,7 @@ app.use(async (err, req, res, next) => {
  * Local Server Information
  * Values from .env (environment) file
  *************************/
-const port = process.env.PORT || 5500; // Default fallback for port
+const port = process.env.PORT || 5500;
 const host = process.env.HOST || "localhost";
 
 /* ***********************

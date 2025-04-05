@@ -2,15 +2,24 @@
 <html lang="en">
 <%- include('../partials/head') %>
 <body>
-    <div id="wrapper">
-        <%- include('../partials/header') %>
-        <%- include('../partials/navigation') %>
+  <div id="wrapper">
+    <%- include('../partials/header') %>
+    <%- include('../partials/navigation') %>
 
-        <main>
-            <%- body %>
-        </main>
+    <main>
+      <% if (messages && messages().length > 0) { %>
+        <div class="flash-wrapper">
+          <div class="flash-message">
+            <button class="close-flash" onclick="this.parentElement.style.display='none';">&times;</button>
+            <%- messages() %>
+          </div>
+        </div>
+      <% } %>
 
-        <%- include('../partials/footer') %>
-    </div>
+      <%- body %>
+    </main>
+
+    <%- include('../partials/footer') %>
+  </div>
 </body>
 </html>

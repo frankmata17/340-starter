@@ -3,6 +3,7 @@ const utilities = require(".");
 
 const invValidate = {};
 
+// Reuse rules for both add and update
 invValidate.inventoryRules = () => {
   return [
     body("inv_make").trim().notEmpty().withMessage("Make is required."),
@@ -18,6 +19,7 @@ invValidate.inventoryRules = () => {
   ];
 };
 
+// Validation for Add Inventory
 invValidate.checkInventoryData = async (req, res, next) => {
   const errors = validationResult(req);
   const nav = await utilities.getNav();
@@ -30,6 +32,49 @@ invValidate.checkInventoryData = async (req, res, next) => {
       classificationList,
       errors: errors.array(),
       ...req.body
+    });
+  }
+  next();
+};
+
+// ✅ Validation for Update Inventory
+invValidate.checkUpdateData = async (req, res, next) => {
+  const errors = validationResult(req);
+  const nav = await utilities.getNav();
+  const classificationList = await utilities.buildClassificationList(req.body.classification_id);
+
+  const {
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+    classification_id,
+  } = req.body;
+
+  if (!errors.isEmpty()) {
+    const itemName = `${inv_make} ${inv_model}`;
+    return res.render("inventory/edit-inventory", {
+      title: "Edit " + itemName,
+      nav,
+      classificationList,
+      errors: errors.array(),
+      inv_id,
+      inv_make,
+      inv_model,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_year,
+      inv_miles,
+      inv_color,
+      classification_id
     });
   }
   next();

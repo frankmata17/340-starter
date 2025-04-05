@@ -1,11 +1,4 @@
 <main class="register-page">
-  <!-- Flash messages -->
-  <% if (messages && messages().length > 0) { %>
-    <div class="flash-wrapper">
-      <%- messages() %>
-    </div>
-  <% } %>
-
   <!-- Validation errors -->
   <% if (errors && errors.length > 0) { %>
     <ul class="notice">
@@ -52,6 +45,17 @@
       name="account_password"
       required
     >
+
+    <div class="show-password-toggle">
+      <input type="checkbox" id="showPassword" onclick="togglePasswordVisibility()"> Show Password
+    </div>
+    
+    <script>
+      function togglePasswordVisibility() {
+        const passwordInput = document.getElementById("account_password");
+        passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+      }
+    </script>
 
     <p class="password-note">
       Password must be at least 12 characters long and include an uppercase letter, lowercase letter, number, and special character.
