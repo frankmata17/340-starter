@@ -151,11 +151,13 @@ invCont.insertInventory = async function (req, res) {
 invCont.buildManagementView = async function (req, res) {
   let nav = await utilities.getNav();
   const classificationList = await utilities.buildClassificationList();
+  const messages = req.flash();
   res.render("inventory/management", {
     title: "Inventory Management",
     nav,
     classificationList,
-    errors: null
+    errors: null,
+    messages
   });
 };
 
