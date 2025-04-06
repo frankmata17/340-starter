@@ -157,7 +157,7 @@ invCont.buildManagementView = async function (req, res) {
     nav,
     classificationList,
     errors: null,
-    messages
+    messages: req.flash(),
   });
 };
 
