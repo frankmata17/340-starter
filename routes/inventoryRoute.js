@@ -4,63 +4,76 @@ const invController = require("../controllers/invController");
 const utilities = require("../utilities");
 const classValidate = require("../utilities/classification-validation");
 const invValidate = require("../utilities/inventory-validation");
-const checkAccountType = require("../middleware/checkAccountType")
+const checkAccountType = require("../middleware/checkAccountType");
 
-// Route to build inventory by classification view
+// Public Routes
 router.get("/type/:classificationId", invController.buildByClassificationId);
-
-// Route to display a specific vehicle detail view
 router.get("/detail/:vehicleId", invController.renderVehicleDetail);
 
-// 500 error
-// router.get("/trigger-error", invController.triggerError);
-
-// Route to deliver the add-classification view
-router.get("/add-classification", 
-  utilities.checkLogin, 
-  checkAccountType, 
+// Protected Routes (Admin or Employee)
+router.get(
+  "/add-classification",
+  utilities.checkLogin,
+  checkAccountType,
   utilities.handleErrors(invController.buildAddClassification)
 );
 
-// GET form
-router.get("/add-inventory", utilities.handleErrors(invController.buildAddInventory));
+router.get(
+  "/add-inventory",
+  utilities.checkLogin,
+  checkAccountType,
+  utilities.handleErrors(invController.buildAddInventory)
+);
+
+router.get(
+  "/edit/:inv_id",
+  utilities.checkLogin,
+  checkAccountType,
+  utilities.handleErrors(invController.editInventoryView)
+);
 
 router.get(
   "/getInventory/:classification_id",
+  utilities.checkLogin,
+  checkAccountType,
   utilities.handleErrors(invController.getInventoryJSON)
 );
 
 router.get(
   "/",
   utilities.checkLogin,
+  checkAccountType,
   utilities.handleErrors(invController.buildManagementView)
 );
 
-// Route to display edit inventory view
-router.get("/edit/:inv_id", utilities.handleErrors(invController.editInventoryView));
-
-// Route to handle form submission
+// POST: Add Classification
 router.post(
   "/add-classification",
+  utilities.checkLogin,
+  checkAccountType,
   classValidate.classificationRules(),
   classValidate.checkClassData,
   utilities.handleErrors(invController.insertClassification)
 );
 
-// POST form
+// POST: Add Inventory
 router.post(
-    "/add-inventory",
-    invValidate.inventoryRules(),
-    invValidate.checkUpdateData,
-    utilities.handleErrors(invController.insertInventory)
-  );
-
-  // Route to handle vehicle update
-router.post(
-  "/update",
+  "/add-inventory",
+  utilities.checkLogin,
+  checkAccountType,
   invValidate.inventoryRules(),
   invValidate.checkInventoryData,
-  utilities.handleErrors(invController.updateInventory)
+  utilities.handleErrors(invController.insertInventory)
+);
+
+// POST: Update Inventory
+router.post(
+  "/update",
+  utilities.checkLogin,
+  checkAccountType,
+  invValidate.inventoryRules(),
+  invValidate.checkInventoryData,
+  utilities.handleErrors(invController.updateInventoryItem)
 );
 
 module.exports = router;
