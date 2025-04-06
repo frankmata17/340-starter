@@ -108,20 +108,25 @@ accountController.loginAccount = async function (req, res) {
 
     if (passwordMatch) {
       delete accountData.account_password;
+
       const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: 3600,
       });
 
-      res.cookie("jwt", accessToken, {
+      const cookieOptions = {
         httpOnly: true,
-        maxAge: 3600 * 1000,
-        secure: process.env.NODE_ENV !== "development"
-      });
+        maxAge: 3600 * 1000, // 1 hour
+      };
 
+      if (process.env.NODE_ENV === "production") {
+        cookieOptions.secure = true;
+      }
+
+      res.cookie("jwt", accessToken, cookieOptions);
       return res.redirect("/account/");
     } else {
       req.flash("notice", "Incorrect password.");
-      res.status(401).render("account/login", {
+      return res.status(401).render("account/login", {
         title: "Login",
         nav,
         errors: null,
@@ -131,7 +136,7 @@ accountController.loginAccount = async function (req, res) {
   } catch (error) {
     console.error("Login error:", error);
     req.flash("notice", "An error occurred during login. Please try again.");
-    res.status(500).render("account/login", {
+    return res.status(500).render("account/login", {
       title: "Login",
       nav,
       errors: null,
@@ -139,6 +144,7 @@ accountController.loginAccount = async function (req, res) {
     });
   }
 };
+
 
 /* ***************************
  * Logout and Clear Cookie
