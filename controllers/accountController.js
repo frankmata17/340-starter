@@ -162,10 +162,12 @@ accountController.buildUpdateView = async function (req, res) {
   const account_id = parseInt(req.params.accountId);
   const nav = await utilities.getNav();
   const accountData = await accountModel.getAccountById(account_id);
+  const messages = req.flash();
 
   res.render("account/update-account", {
     title: "Update Account",
     nav,
+    messages,
     errors: null,
     account_id: accountData.account_id,
     account_firstname: accountData.account_firstname,
