@@ -58,11 +58,9 @@ app.use(flash());
 
 // Flash messages
 app.use(function (req, res, next) {
-  res.locals.messages = require("express-messages")(req, res);
-  
-  res.locals.messageStyles = {
-    notice: 'notice',
-    error: 'error'
+  res.locals.flash = {
+    notice: req.flash("notice"),
+    error: req.flash("error"),
   };
   next();
 });

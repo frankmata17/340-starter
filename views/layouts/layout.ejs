@@ -7,14 +7,20 @@
     <%- include('../partials/navigation') %>
 
     <main>
-      <% if (messages && messages().length > 0) { %>
+      <% if (typeof flash !== "undefined" && flash.notice && flash.notice.length > 0) { %>
         <div class="flash-wrapper">
           <div class="flash-message">
             <button class="close-flash" onclick="this.parentElement.style.display='none';">&times;</button>
-            <%- messages() %>
+            <ul>
+              <% flash.notice.forEach(function(msg) { %>
+                <li><%= msg %></li>
+              <% }) %>
+            </ul>
           </div>
         </div>
       <% } %>
+      
+      
 
       <%- body %>
     </main>

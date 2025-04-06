@@ -65,15 +65,8 @@ accountController.registerAccount = async function (req, res) {
     );
 
     if (regResult) {
-      req.flash("notice", `🎉 Congratulations, you're registered ${account_firstname}! <a href="/account/login">Click here to log in.</a>`);
-      return res.status(201).render("account/register", {
-        title: "Register",
-        nav,
-        errors: null,
-        account_firstname: "",
-        account_lastname: "",
-        account_email: ""
-      });
+      req.flash("notice", `🎉 Congratulations, you're registered ${account_firstname}!`);
+      return res.redirect("/account/login"); // ✅ Redirect so flash message is shown
     } else {
       throw new Error("Registration failed");
     }
@@ -90,6 +83,7 @@ accountController.registerAccount = async function (req, res) {
     });
   }
 };
+
 
 /* ***************************
  * Process Login

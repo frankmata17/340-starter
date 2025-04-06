@@ -663,33 +663,29 @@ button[type="button"]:hover {
 }
 
 .flash-wrapper {
-  margin: 1rem auto;
-  max-width: 700px;
-  padding: 0 1rem;
-}
-
-.flash-message {
-  position: relative;
-  background-color: #e0ffe0;
-  border: 1px solid #46a049;
-  color: black;
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
   padding: 1rem;
+  margin: 1rem 0;
   border-radius: 5px;
-  font-size: 1rem;
 }
 
-.flash-message a {
-  color: black;
-  text-decoration: underline;
+.flash-message ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.flash-message li {
+  font-weight: bold;
 }
 
 .close-flash {
-  position: absolute;
-  top: 8px;
-  right: 12px;
-  background: transparent;
+  float: right;
+  background: none;
   border: none;
   font-size: 1.25rem;
   cursor: pointer;
-  color: #2f6627;
 }
+
