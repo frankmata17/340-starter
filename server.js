@@ -13,6 +13,7 @@ const app = express();
 
 const session = require("express-session");
 const flash = require("connect-flash");
+const messages = require("express-messages");
 const pool = require("./database/");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -55,13 +56,8 @@ app.use(
 
 // Flash middleware
 app.use(flash());
-
-// Flash messages
 app.use(function (req, res, next) {
-  res.locals.flash = {
-    notice: req.flash("notice"),
-    error: req.flash("error"),
-  };
+  res.locals.messages = messages(req, res);
   next();
 });
 

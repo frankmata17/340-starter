@@ -1,4 +1,5 @@
 'use strict'
+console.log("✅ inventory.js is loaded");
 
 // Get a list of items in inventory based on the classification_id
 let classificationList = document.querySelector("#classificationList")
