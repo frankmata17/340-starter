@@ -1,0 +1,21 @@
+<main>
+    <h1>Schedule Test Drive</h1>
+    <form action="/test-drive/submit" method="post">
+      <input type="hidden" name="inv_id" value="<%= vehicle.inv_id %>">
+  
+      <label for="name">Full Name:</label>
+      <input type="text" name="name" id="name" required>
+  
+      <label for="email">Email Address:</label>
+      <input type="email" name="email" id="email" required>
+  
+      <label for="phone">Phone Number:</label>
+      <input type="tel" name="phone" id="phone" required>
+  
+      <label for="preferred_date">Preferred Test Drive Date:</label>
+      <input type="date" name="preferred_date" id="preferred_date" required>
+  
+      <button type="submit">Submit</button>
+    </form>
+  </main>
+  

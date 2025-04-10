@@ -1,5 +1,6 @@
 const invModel = require("../models/inventory-model");
 const utilities = require("../utilities/");
+const reviewModel = require("../models/review-model");
 
 const invCont = {};
 
@@ -36,6 +37,7 @@ invCont.renderVehicleDetail = async function (req, res, next) {
   try {
     const inv_id = req.params.vehicleId;
     const vehicle = await invModel.getInventoryById(inv_id);
+    const reviews = await reviewModel.getReviewsByVehicleId(inv_id); // <-- new line
 
     if (!vehicle) {
       return res.status(404).render("error", { title: "Not Found", message: "Vehicle not found." });
@@ -46,6 +48,9 @@ invCont.renderVehicleDetail = async function (req, res, next) {
       title: `${vehicle.inv_make} ${vehicle.inv_model}`,
       nav,
       vehicle,
+      reviews, // <-- new line
+      loggedin: res.locals.loggedin,
+      account_id: res.locals.accountData?.account_id,
     });
   } catch (error) {
     console.error("Error rendering vehicle detail:", error);

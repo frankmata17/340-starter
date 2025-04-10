@@ -23,6 +23,7 @@ const baseController = require("./controllers/baseControllers");
 const inventoryRoute = require("./routes/inventoryRoute");
 const accountRoute = require("./routes/accountRoute");
 const utilities = require("./utilities");
+const reviewRoute = require("./routes/reviewRoute");
 
 /* ***********************
  * View Engine and Templates
@@ -106,6 +107,21 @@ app.use("/inv", inventoryRoute);
 
 // Account routes (prefix is '/account')
 app.use("/account", accountRoute);
+
+// Reviews
+const reviewsRoute = require("./routes/reviewRoute");
+app.use("/reviews", reviewRoute);
+
+// Vehicle Route
+const vehicleRoute = require("./routes/vehicleRoute");
+app.use("/vehicles", vehicleRoute);
+
+// Test Drive Route
+const testDriveRoute = require("./routes/testDriveRoute");
+app.use("/test-drive", testDriveRoute);
+
+// Reviews
+app.use("/reviews", reviewRoute);
 
 /* ***********************
  * 404 Error Route
