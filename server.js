@@ -57,10 +57,14 @@ app.use(
 
 // Flash middleware
 app.use(flash());
-app.use(function (req, res, next) {
-  res.locals.messages = messages(req, res);
+app.use((req, res, next) => {
+  res.locals.flash = {
+    notice: req.flash("notice"),
+    error: req.flash("error"),
+  };
   next();
 });
+
 
 // Body parsing middleware
 app.use(bodyParser.json());
@@ -68,6 +72,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Cookie parser
 app.use(cookieParser());
+
 
 // Set login status and account info for views
 app.use(async (req, res, next) => {

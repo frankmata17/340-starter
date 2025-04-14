@@ -3,11 +3,39 @@ const router = new express.Router();
 const reviewController = require("../controllers/reviewController");
 const utilities = require("../utilities");
 
-// ✅ Correct POST route to submit a review
+// Submit a review
 router.post(
-  "/add", // 🔁 Change "/submit" to "/add" to match your form action
+  "/submit",
   utilities.checkLogin,
   utilities.handleErrors(reviewController.submitReview)
+);
+
+// GET review edit form
+router.get(
+  "/edit/:review_id",
+  utilities.checkLogin,
+  utilities.handleErrors(reviewController.editReviewForm)
+);
+
+// Confirm delete review page (optional if using modal or inline)
+router.get(
+  "/delete/:review_id",
+  utilities.checkLogin,
+  utilities.handleErrors(reviewController.confirmDeleteReview)
+);
+
+// POST to update review
+router.post(
+  "/update",
+  utilities.checkLogin,
+  utilities.handleErrors(reviewController.updateReview)
+);
+
+// ✅ POST to delete review (keep just this one)
+router.post(
+  "/delete",
+  utilities.checkLogin,
+  utilities.handleErrors(reviewController.deleteReview)
 );
 
 module.exports = router;
